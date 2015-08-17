@@ -72,8 +72,10 @@
             dataType: 'json',
             success: function (data) {
               $.each(data, function(index, value) {
-                var filename = value.slice(value.lastIndexOf('/')+1);
-                var item = $("<li />").append($("<a />").attr("href", value).text(filename));
+                var dash = value.lastIndexOf('/'),
+                    filename = value.slice(dash+1),
+                    ele = (dash !== -1) ? $("<a />", { "href": value }) : $("<span />", { "class": "error" }),
+                    item = $("<li />").append( ele.text(filename) );
                 $('#result').append(item);
               });
               $('body').loading('stop');
