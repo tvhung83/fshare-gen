@@ -1,10 +1,10 @@
 # Fshare Link Generator
 
-TODO: Write a project description
+A premium link generator for Fshare.
 
 ## Installation
 
-Check out this repository and deploy to OpenShift.
+Check out this repository and deploy to OpenShift. [Demo](https://tvhung83.github.io/fshare).
 
 ## Usage
 
@@ -15,7 +15,7 @@ from fshare_client import FshareClient
 
 client = FshareClient()
 if client.login('YOUR_FSHARE_EMAIL', 'YOUR_FSHARE_PASSWORD'):
-	print client.process('https://www.fshare.vn/file/4ASWS3PZN1V1')
+	print client.process('https://www.fshare.vn/file/XXXXXXXXXXXX')
 ```
 
 ## Contributing
@@ -29,9 +29,9 @@ if client.login('YOUR_FSHARE_EMAIL', 'YOUR_FSHARE_PASSWORD'):
 ## History
 
 ### v0.5.0:
-* Extract main logic to new class
-* Validate login result
-* Stay away from 3<sup>rd</sup> party library, in order to integrate into XBMC later
+* Extract main logic to new class.
+* Validate login result.
+* Stay away from 3<sup>rd</sup> party library, in order to integrate into XBMC later.
 
 ## Credits
 
