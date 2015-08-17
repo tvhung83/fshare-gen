@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fshare - Generator</title>
+    <link rel="stylesheet" href="css/foundation.min.css" />
+    <link rel="stylesheet" href="css/jquery.loading.min.css" />
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+    <script src="js/vendor/modernizr.js"></script>
+    <style type="text/css">
+      textarea { height: 200px; }
+    </style>
+  </head>
+  <body>
+    
+    <div class="row">
+      <div class="large-12 columns">
+        <h1>fshare premium link generator</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-8 medium-8 columns">
+        <form name="url-form" id="url-form" method="POST">
+          <div class="row">
+            <div class="large-12 columns">
+              <textarea name="url" id="url" placeholder="Accept an individual URL or multiple URLs, separated by comma or new line."></textarea>
+            </div>
+          </div>
+        </form>
+      </div>     
+
+      <div class="large-4 medium-4 columns">
+        <a id="bt-gen" class="small button">Generate</a>
+        <a id="bt-copy" class="small button" data-clipboard-text="">Copy to clipboard</a>
+        <div data-alert class="alert-box info radius" style="display: none;">
+          Copied to clipboard!
+          <a href="#" class="close">&times;</a>
+        </div>
+        <!--
+        <div class="panel">
+          <h5>Example</h5>
+          <p>https://www.fshare.vn/file/GK3VEJ7OLF<br />https://www.fshare.vn/file/O7TGOSH2NS</p>
+          <p>https://www.fshare.vn/file/GK3VEJ7OLF,https://www.fshare.vn/file/O7TGOSH2NS</p>
+        </div>
+        -->
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="large-12 medium-12 columns">
+          <ul id="result"></ul>
+      </div>
+    </div>
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/vendor/jquery.loading.min.js"></script>
+    <script src="js/vendor/ZeroClipboard.min.js"></script>
+    <script>
+      $(document).foundation();
+      $("#bt-gen").click(function() {
+        $('#result').empty();
+        $('.alert-box').hide();
+        $('body').loading({ message: 'Generating...' });
+        $.ajax({
+            url: 'http://fshare-cuatao.rhcloud.com/',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify($.grep($('#url').val().split(/[\s\n,]+/),function(n){ return(n); })),
+            dataType: 'json',
+            success: function (data) {
+              $.each(data, function(index, value) {
+                var filename = value.slice(value.lastIndexOf('/')+1);
+                var item = $("<li />").append($("<a />").attr("href", value).text(filename));
+                $('#result').append(item);
+              });
+              $('body').loading('stop');
+              $('#bt-copy').attr('data-clipboard-text', data.join('\r\n'));
+            },
+            error: function (data) {
+              console.log('ERROR');
+              console.log(data);
+              $('#result').append($("<li />").text('Error while generating, please try again later'));
+              $('body').loading('stop');
+            }
+        });
+      });
+
+      var client = new ZeroClipboard( document.getElementById("bt-copy") );
+      client.on( "ready", function( readyEvent ) {
+        client.on( "aftercopy", function( event ) {
+          $('.alert-box').fadeIn(2000);
+        } );
+      } );
+    </script>
+  </body>
+</html>
