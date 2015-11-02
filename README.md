@@ -1,3 +1,5 @@
+# DUE TO NEW SESSION MECHANISM OF FSHARE, THE CODE IS NOT WORKING ANYMORE.
+
 # Fshare Link Generator
 
 A premium link generator for Fshare.
